@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/maahsome/changelog-pr/common"
+	"changelog-pr/common"
 )
 
 // Mock - Structure to hold stuff

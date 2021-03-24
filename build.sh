@@ -30,4 +30,4 @@ echo "SemVer: ${SEMVER}"
 echo "GIT TAG: ${GIT_TAG}"
 echo "GIT REF: ${GIT_REF}"
 
-go build -ldflags "-X github.com/maahsome/changelog-pr/cmd.semVer=${SEMVER} -X 'github.com/maahsome/changelog-pr/cmd.buildDate=${BUILD_DATE}' -X github.com/maahsome/changelog-pr/cmd.gitCommit=${GIT_TAG} -X github.com/maahsome/changelog-pr/cmd.gitRef=${GIT_REF}"
+go build -ldflags "-X changelog-pr/cmd.semVer=${SEMVER} -X 'changelog-pr/cmd.buildDate=${BUILD_DATE}' -X changelog-pr/cmd.gitCommit=${GIT_TAG} -X changelog-pr/cmd.gitRef=${GIT_REF}"

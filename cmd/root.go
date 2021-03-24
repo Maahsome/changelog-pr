@@ -7,7 +7,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/maahsome/changelog-pr/common"
+	"changelog-pr/common"
+
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/viper"
 )

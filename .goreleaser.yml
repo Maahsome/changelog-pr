@@ -1,7 +1,7 @@
 env:
   - CGO_ENABLED=0
   - GO111MODULE=on
-  - REPO=github.com/maahsome/changelog-pr
+  - REPO="github.com/{{ .Env.HOMEBREW_ORG }}/changelog-pr"
 
 before:
   hooks:
@@ -9,10 +9,10 @@ before:
 builds:
   - id: general
     ldflags: &build-ldflags
-      - -X github.com/maahsome/changelog-pr/cmd.semVer=v{{ .Version }}
-      - -X github.com/maahsome/changelog-pr/cmd.buildDate={{ .CommitDate }}
-      - -X github.com/maahsome/changelog-pr/cmd.gitCommit={{ .Commit }}
-      - -X github.com/maahsome/changelog-pr/cmd.gitRef=refs/tags/{{ .Tag }}
+      - -X changelog-pr/cmd.semVer=v{{ .Version }}
+      - -X changelog-pr/cmd.buildDate={{ .CommitDate }}
+      - -X changelog-pr/cmd.gitCommit={{ .Commit }}
+      - -X changelog-pr/cmd.gitRef=refs/tags/{{ .Tag }}
     goos:
       - linux
       - windows
@@ -43,16 +43,16 @@ brews:
     # GitHub/GitLab repository to push the formula to
     # Gitea is not supported yet, but the support coming
     tap:
-      owner: maahsome
-      name: homebrew-tap
+      owner: "{{ .Env.HOMEBREW_ORG }}"
+      name: "{{ .Env.HOMEBREW_REPO }}"
       # Optionally a token can be provided, if it differs from the token provided to GoReleaser
-      token: "{{ .Env.MAAHSOME_PAT }}"
+      token: "{{ .Env.HOMEBREW_PAT }}"
 
     # Template for the url which is determined by the given Token (github or gitlab)
     # Default for github is "https://github.com/<repo_owner>/<repo_name>/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
     # Default for gitlab is "https://gitlab.com/<repo_owner>/<repo_name>/uploads/{{ .ArtifactUploadHash }}/{{ .ArtifactName }}"
     # Default for gitea is "https://gitea.com/<repo_owner>/<repo_name>/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
-    url_template: "https://github.com/maahsome/changelog-pr/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+    url_template: "https://github.com/{{ .Env.HOMEBREW_ORG }}/changelog-pr/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
     # Allows you to set a custom download strategy. Note that you'll need
     # to implement the strategy and add it to your tap repository.
     # Example: https://docs.brew.sh/Formula-Cookbook#specifying-the-download-strategy-explicitly
@@ -66,8 +66,8 @@ brews:
     # Git author used to commit to the repository.
     # Defaults are shown.
     commit_author:
-      name: Christopher Maahs
-      email: cmaahs@gmail.com
+      name: "{{ .Env.HOMEBREW_COMMIT_NAME }}"
+      email: "{{ .Env.HOMEBREW_COMMIT_EMAIL }}"
 
     # Folder inside the repository to put the formula.
     # Default is the root folder.
@@ -79,7 +79,7 @@ brews:
 
     # Your app's homepage.
     # Default is empty.
-    homepage: "https://github.com/maahsome/changelog-pr/"
+    homepage: "https://github.com/{{ .Env.HOMEBREW_ORG }}/changelog-pr/"
 
     # Your app's description.
     # Default is empty.

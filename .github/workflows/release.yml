@@ -30,4 +30,8 @@ jobs:
           args: release --rm-dist --release-notes=changelog/${{ env.RELEASE_TAG }}.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MAAHSOME_PAT: ${{ secrets.MAAHSOME_PAT }}
+          HOMEBREW_PAT: ${{ secrets.HOMEBREW_PAT }}
+          HOMEBREW_ORG: ${{ secrets.HOMEBREW_ORG }}
+          HOMEBREW_REPO: ${{ secrets.HOMEBREW_REPO }}
+          HOMEBREW_COMMIT_NAME: ${{ secrets.HOMEBREW_COMMIT_NAME }}
+          HOMEBREW_COMMIT_EMAIL: ${{ secrets.HOMEBREW_COMMIT_EMAIL }}

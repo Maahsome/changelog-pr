@@ -5,8 +5,9 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/maahsome/changelog-pr/common"
-	clprovider "github.com/maahsome/changelog-pr/provider"
+	"changelog-pr/common"
+	clprovider "changelog-pr/provider"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )

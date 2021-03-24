@@ -5,9 +5,10 @@ import (
 	"fmt"
 	"strings"
 
+	"changelog-pr/common"
+	"changelog-pr/provider"
+
 	"github.com/blang/semver/v4"
-	"github.com/maahsome/changelog-pr/common"
-	"github.com/maahsome/changelog-pr/provider"
 	"github.com/spf13/cobra"
 )
 

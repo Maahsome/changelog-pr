@@ -1,4 +1,4 @@
-module github.com/maahsome/changelog-pr
+module changelog-pr
 
 go 1.16
 
