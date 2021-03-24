@@ -43,8 +43,8 @@ brews:
     # GitHub/GitLab repository to push the formula to
     # Gitea is not supported yet, but the support coming
     tap:
-      owner: "{{ .Env.HOMEBREW_ORG }}"
-      name: "{{ .Env.HOMEBREW_REPO }}"
+      owner: maahsome
+      name: homebrew-tap
       # Optionally a token can be provided, if it differs from the token provided to GoReleaser
       token: "{{ .Env.HOMEBREW_PAT }}"
 
@@ -66,8 +66,8 @@ brews:
     # Git author used to commit to the repository.
     # Defaults are shown.
     commit_author:
-      name: "{{ .Env.HOMEBREW_COMMIT_NAME }}"
-      email: "{{ .Env.HOMEBREW_COMMIT_EMAIL }}"
+      name: Christopher Maahs
+      email: cmaahs@gmail.com
 
     # Folder inside the repository to put the formula.
     # Default is the root folder.
