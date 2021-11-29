@@ -1,0 +1,27 @@
+# RELEASE Process
+
+- Set a new release version
+  - `RELEASE_VERSION={newSemVer}`
+    - where {newSemVer} is in the form of `v0.1.0`
+- Create a new branch for release.
+  - `git checkout -b RELEASE_${RELEASE_VERSION}`
+- Generate the changelog for the version
+  - SET your GitHub Personal Access Token
+    - `GH_PAT=$(get-github-pat) # wrapper for fetching from whatever tool the PAT is stored in`
+  - `PREVIOUS_RELEASE_VER=$(curl -Ls https://api.github.com/repos/maahsome/changelog-pr/releases/latest | jq -r '.tag_name'); echo ${PREVIOUS_RELEASE_VER}`
+  - `changelog-pr generate -p . --since-tag "${PREVIOUS_RELEASE_VER}" --release-tag "${RELEASE_VERSION}" -v info --gh-token=${GH_PAT} --file changelog/${RELEASE_VERSION}.md`
+- Review changelog/releases/${RELEASE_VERSION}.md
+  - `mdcat changelog/${RELEASE_VERSION}.md`
+- Create and Merge PR
+  - `git add -A; git commit -m "RELEASE of ${RELEASE_VERSION}"; git push origin RELEASE_${RELEASE_VERSION}`
+  - `gh pr create --title "RELEASE ${RELEASE_VERSION}" --body "Release ${RELEASE_VERSION}" --base main`
+  - `gh pr list`
+  - `gh pr merge #`
+- Pull main
+  - `git checkout main; git fetch; git pull`
+- Perform the release
+  - `git tag ${RELEASE_VERSION}`
+  - `git push origin ${RELEASE_VERSION}`
+- Check to see if Release GitHub Action kicks off
+  - Check maahsome/changelog-pr Releases Page, and maahsome/homebrew-tap/Formula/changelog-pr.rb
+  - `gh release list --repo maahsome/changelog-pr --limit 5`

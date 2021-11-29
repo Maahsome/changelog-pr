@@ -10,10 +10,11 @@ import (
 // Mock - Structure to hold stuff
 type Mock struct {
 	Provider string
+	Host     string
 }
 
-// GetChangeLogSincePR - Get the changelog details from the PR description
-func (p *Mock) GetChangeLogFromPR(src string, sincePR string, release string, auth AuthToken, fileName string) (string, error) {
+// GetChangeLogSincePRMR - Get the changelog details from the PR/MR description
+func (p *Mock) GetChangeLogFromPRMR(src string, sincePR string, release string, auth AuthToken, fileName string) (string, error) {
 
 	var (
 		PRData []string
@@ -144,7 +145,7 @@ This is the description
 	}
 
 	for k, v := range PRData {
-		err := common.ParseMarkdown(v, fmt.Sprintf("%d", k), &changeLog)
+		err := common.ParseMarkdown(v, fmt.Sprintf("%d", k), &changeLog, "Pull Request", "https://github.com/example/repo/mr/1")
 		if err != nil {
 			common.Logger.Error("Could not parse the markdown")
 		}
