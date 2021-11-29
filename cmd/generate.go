@@ -77,20 +77,30 @@ func generateLog(src string, sTag string, rTag string, logFile string) (string, 
 		gp    provider.Provider
 	)
 
+	var auth provider.AuthToken
 	switch strings.ToLower(gitProvider) {
 	case "github":
-		gp, err = provider.GetProvider(provider.GITHUB)
+		gp, err = provider.GetProvider(provider.GITHUB, ghHost)
 		if err != nil {
 			return "", errors.New("failed to provision git provider")
+		}
+		auth = provider.AuthToken{
+			AccessToken: ghToken,
+		}
+	case "gitlab":
+		common.Logger.Trace("Host", glHost)
+		gp, err = provider.GetProvider(provider.GITLAB, glHost)
+		if err != nil {
+			return "", errors.New("failed to provision git provider")
+		}
+		auth = provider.AuthToken{
+			AccessToken: glToken,
 		}
 	default:
 		return "", errors.New("unsupported provider")
 	}
 
-	auth := provider.AuthToken{
-		GithubToken: ghToken,
-	}
-	chlog, err = gp.GetChangeLogFromPR(src, sTag, rTag, auth, logFile)
+	chlog, err = gp.GetChangeLogFromPRMR(src, sTag, rTag, auth, logFile)
 	if err != nil {
 		return "", errors.New("failed generation of changelog")
 	}

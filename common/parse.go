@@ -5,45 +5,45 @@ import (
 	"strings"
 )
 
-func collectSectionText(cl *Changelog, sectionName string, sectionText string, pr string) {
+func collectSectionText(cl *Changelog, sectionName string, sectionText string, pr string, requestText string, requestURL string) {
 
 	switch sectionName {
 	case "## Changelog Inclusions.### Additions":
 		cl.Additions = append(cl.Additions, ChangelogEntry{
 			Description: sectionText,
-			Link:        fmt.Sprintf("[Pull Request #%s](https://github.com/splicemachine/splicectl/pull/%s)", pr, pr),
+			Link:        fmt.Sprintf("[%s #%s](%s)", requestText, pr, requestURL),
 		})
 	case "## Changelog Inclusions.### Changes":
 		cl.Changes = append(cl.Changes, ChangelogEntry{
 			Description: sectionText,
-			Link:        fmt.Sprintf("[Pull Request #%s](https://github.com/splicemachine/splicectl/pull/%s)", pr, pr),
+			Link:        fmt.Sprintf("[%s #%s](%s)", requestText, pr, requestURL),
 		})
 	case "## Changelog Inclusions.### Fixes":
 		cl.Bugfixes = append(cl.Bugfixes, ChangelogEntry{
 			Description: sectionText,
-			Link:        fmt.Sprintf("[Pull Request #%s](https://github.com/splicemachine/splicectl/pull/%s)", pr, pr),
+			Link:        fmt.Sprintf("[%s #%s](%s)", requestText, pr, requestURL),
 		})
 	case "## Changelog Inclusions.### Deprecated":
 		cl.Deprecations = append(cl.Deprecations, ChangelogEntry{
 			Description: sectionText,
-			Link:        fmt.Sprintf("[Pull Request #%s](https://github.com/splicemachine/splicectl/pull/%s)", pr, pr),
+			Link:        fmt.Sprintf("[%s #%s](%s)", requestText, pr, requestURL),
 		})
 	case "## Changelog Inclusions.### Removed":
 		cl.Removals = append(cl.Removals, ChangelogEntry{
 			Description: sectionText,
-			Link:        fmt.Sprintf("[Pull Request #%s](https://github.com/splicemachine/splicectl/pull/%s)", pr, pr),
+			Link:        fmt.Sprintf("[%s #%s](%s)", requestText, pr, requestURL),
 		})
 	case "## Changelog Inclusions.### Breaking Changes":
 		cl.Breaking = append(cl.Breaking, ChangelogEntry{
 			Description: sectionText,
-			Link:        fmt.Sprintf("[Pull Request #%s](https://github.com/splicemachine/splicectl/pull/%s)", pr, pr),
+			Link:        fmt.Sprintf("[%s #%s](%s)", requestText, pr, requestURL),
 		})
 
 	}
 
 }
 
-func ParseMarkdown(body string, pr string, cl *Changelog) error {
+func ParseMarkdown(body string, pr string, cl *Changelog, requestText string, requestURL string) error {
 
 	var splits []string
 	sections := map[string]string{}
@@ -69,7 +69,7 @@ func ParseMarkdown(body string, pr string, cl *Changelog) error {
 		if strings.HasPrefix(strings.TrimSpace(v), "#") {
 			// We are at a markdown section marker, if we have section text, we need to capture it
 			if len(sectionName) > 0 && len(sectionText) > 0 {
-				collectSectionText(cl, sectionName, sectionText, pr)
+				collectSectionText(cl, sectionName, sectionText, pr, requestText, requestURL)
 				sections[sectionName] = sectionText
 				sectionText = ""
 			}
@@ -99,7 +99,7 @@ func ParseMarkdown(body string, pr string, cl *Changelog) error {
 	// If we exit with no enclosing section, where one of our changes sections is last in the description
 	// we need to process that last block of text we collected.
 	if len(sectionName) > 0 && len(sectionText) > 0 {
-		collectSectionText(cl, sectionName, sectionText, pr)
+		collectSectionText(cl, sectionName, sectionText, pr, requestText, requestURL)
 		sections[sectionName] = sectionText
 		sectionText = ""
 	}
