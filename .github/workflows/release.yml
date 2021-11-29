@@ -24,7 +24,7 @@ jobs:
         run: echo RELEASE_TAG=$(echo ${GITHUB_REF} | rev | cut -d'/' -f 1 | rev ) >> ${GITHUB_ENV}
       -
         name: Run GoReleaser
-        uses: maahsome/goreleaser-action@v2
+        uses: goreleaser/goreleaser-action@v2
         with:
           version: latest
           args: release --rm-dist --release-notes=changelog/${{ env.RELEASE_TAG }}.md
