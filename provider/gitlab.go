@@ -205,7 +205,6 @@ func (p *Gitlab) GetChangeLogFromPRMR(src string, sincePR string, release string
 	} else {
 		common.Logger.Fatal(fmt.Sprintf("The TAG you specified was NOT in the currently selected BRANCH: %s", head.Name().Short()))
 	}
-	// curl -sH "Accept: application/vnd.github.v3+json" https://api.github.com/repos/splicemachine/splicectl/pulls/5 | jq -r '.body'
 	restClient := resty.New()
 
 	changeLog := common.Changelog{}

@@ -99,6 +99,7 @@ func ParseMarkdown(body string, pr string, cl *Changelog, requestText string, re
 	// If we exit with no enclosing section, where one of our changes sections is last in the description
 	// we need to process that last block of text we collected.
 	if len(sectionName) > 0 && len(sectionText) > 0 {
+		Logger.Info("Collecting text from section", sectionName)
 		collectSectionText(cl, sectionName, sectionText, pr, requestText, requestURL)
 		sections[sectionName] = sectionText
 		sectionText = ""
