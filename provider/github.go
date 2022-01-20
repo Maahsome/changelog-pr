@@ -52,15 +52,26 @@ func getUserRepository(url string) (string, string, error) {
 
 	var matches [][]string
 
+	var gitRegexPattern string
+	var httpRegexPattern string
+
+	if strings.HasSuffix(url, ".git") {
+		gitRegexPattern = `:(.+)\/(.+).git`
+		httpRegexPattern = `\.com\/(.+)\/(.+).git`
+	} else {
+		gitRegexPattern = `:(.+)\/(.+)$`
+		httpRegexPattern = `\.com\/(.+)\/(.+)$`
+	}
+
 	if strings.Contains(url, "git@") {
-		var gitRegex = regexp.MustCompile(`:(.+)\/(.+).git`)
+		var gitRegex = regexp.MustCompile(gitRegexPattern)
 		matches = gitRegex.FindAllStringSubmatch(url, -1)
 		if len(matches) == 0 || len(matches[0]) == 0 || len(matches[0][1]) == 0 || len(matches[0][2]) == 0 {
 			return "", "", errors.New("failed to extract git user/repository")
 		}
 	}
 	if strings.Contains(url, "https://") {
-		var httpsRegex = regexp.MustCompile(`\.com\/(.+)\/(.+).git`)
+		var httpsRegex = regexp.MustCompile(httpRegexPattern)
 		matches = httpsRegex.FindAllStringSubmatch(url, -1)
 		if len(matches) == 0 || len(matches[0]) == 0 || len(matches[0][1]) == 0 || len(matches[0][2]) == 0 {
 			return "", "", errors.New("failed to extract git user/repository")
